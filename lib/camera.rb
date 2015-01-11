@@ -16,6 +16,7 @@ class Camera
   end
 
   def configurations
+    reload
     config.each_with_object({}) { |(k,v), hash| hash[k] = v.value }
   end
 
