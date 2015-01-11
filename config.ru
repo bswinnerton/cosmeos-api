@@ -1,3 +1,3 @@
 require './app'
 
-run Cosmeos::Camera::API
+run Cosmeos::CameraAPI

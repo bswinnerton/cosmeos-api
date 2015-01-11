@@ -30,13 +30,13 @@ rackup -p 4567
 
 ## Endpoints
 
-`/api/camera/configuration` - Lists the current configurations that the camera
+`/camera/configuration` - Lists the current configurations that the camera
 has set.
 
-![cosmeos-configuration](http://i.imgur.com/WC5NA8y.png)
+![cosmeos-configuration](http://i.imgur.com/AoVggql.png)
 
 ---
 
-`/api/camera/preview.jpg` - Returns an image preview of the camera.
+`/camera/preview.jpg` - Returns an image preview of the camera.
 
-![cosmeos-preview](http://i.imgur.com/Ik4acqM.png)
+![cosmeos-preview](http://i.imgur.com/qoPXZ7x.png)

@@ -1,18 +1,24 @@
 require 'gphoto2' #FIXME: Why doesn't bundler include this?
 
 class Camera
-  class CameraFellAsleep < StandardError; end
+  class CameraNotConnected < StandardError; end
 
-  attr_accessor :type
+  DELEGATED_METHODS = [:close, :reload, :config, :configuration, :preview]
 
-  def initialize(type)
+  extend Forwardable
+  def_delegators :camera_connection, *DELEGATED_METHODS
+
+  def initialize
     kill_mac_processes!
-    @type = type
   end
 
   def reload!
     kill_mac_processes!
-    @gphoto_camera = gphoto_cameras.first
+    @camera_connection = camera_connections.first
+  end
+
+  def alive?
+    !!camera_connection
   end
 
   def configurations
@@ -22,31 +28,23 @@ class Camera
 
   private
 
+  # If a preview was initialized at any point, ensure that we close the
+  # shutter now.
   at_exit do
-    return unless CAMERA
-
-    # If a preview was initialized at any point, ensure that we close the
-    # shutter.
-    CAMERA.close
-  end
-
-  def method_missing(method, *args)
-    raise CameraFellAsleep unless gphoto_camera
-
-    gphoto_camera.send(method, *args) if gphoto_camera.respond_to?(method)
+    CAMERA.close if CAMERA.alive?
   end
 
   # Mac OS X will automatically start a process when a camera is connected,
-  # stealing access to the USB.
+  # stealing access to the USB. We need to kill it.
   def kill_mac_processes!
     system('killall PTPCamera 1>/dev/null')
   end
 
-  def gphoto_cameras
-    GPhoto2::Camera.where(model: /#{type}/i)
+  def camera_connections
+    GPhoto2::Camera.all
   end
 
-  def gphoto_camera
-    @gphoto_camera ||= gphoto_cameras.first
+  def camera_connection
+    @camera_connection ||= camera_connections.first
   end
 end

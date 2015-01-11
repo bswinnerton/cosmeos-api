@@ -1,1 +1,1 @@
-CAMERA = Camera.new('canon')
+CAMERA = Camera.new
