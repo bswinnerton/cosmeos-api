@@ -1,0 +1,1 @@
+CAMERA = Camera.new('canon')
