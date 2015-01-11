@@ -10,11 +10,6 @@ class Camera
     kill_mac_processes!
   end
 
-  def reload!
-    kill_mac_processes!
-    @camera_connection = camera_connections.first
-  end
-
   def alive?
     !!camera_connection
   end
