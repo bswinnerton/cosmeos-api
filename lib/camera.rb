@@ -1,9 +1,7 @@
 require 'gphoto2' #FIXME: Why doesn't bundler include this?
 
 class Camera
-  class CameraNotConnected < StandardError; end
-
-  DELEGATED_METHODS = [:close, :reload, :config, :configuration, :preview]
+  DELEGATED_METHODS = [:close, :reload, :save, :config, :configuration, :preview]
 
   extend Forwardable
   def_delegators :camera_connection, *DELEGATED_METHODS
@@ -24,6 +22,14 @@ class Camera
   def configurations
     reload
     config.each_with_object({}) { |(k,v), hash| hash[k] = v.value }
+  end
+
+  def update(options)
+    options.each do |key, value|
+      return unless config[key].choices.include? value
+      camera_connection[key] = value
+    end
+    save
   end
 
   private
