@@ -10,7 +10,7 @@ class Camera
     @type = type
   end
 
-  def reinitialize!
+  def reload!
     kill_mac_processes!
     @gphoto_camera = gphoto_cameras.first
   end
