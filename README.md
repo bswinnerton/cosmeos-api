@@ -37,6 +37,6 @@ has set.
 
 ---
 
-`/camera/preview.jpg` - Returns an image preview of the camera.
+`/camera/preview.jpg` - Returns an image preview from the camera.
 
 ![cosmeos-preview](http://i.imgur.com/qoPXZ7x.png)
