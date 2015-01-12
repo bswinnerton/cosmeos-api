@@ -1,9 +1,9 @@
 require 'gphoto2' #FIXME: Why doesn't bundler include this?
 
 class Camera
-  DELEGATED_METHODS = [:close, :reload, :save, :config, :configuration, :preview]
-
   extend Forwardable
+
+  DELEGATED_METHODS = [:close, :reload, :save, :config, :configuration, :preview]
   def_delegators :camera_connection, *DELEGATED_METHODS
 
   def initialize
